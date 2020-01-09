@@ -1533,9 +1533,9 @@ const GhostAdminApi = __webpack_require__(455);
 
         const basePath = process.env.GITHUB_WORKSPACE;
         const pkgPath = path.join(process.env.GITHUB_WORKSPACE, 'package.json');
-        
+
         let zipPath = core.getInput('file');
-        
+
         // Zip file was not provided - zip everything up!
         if (!zipPath) {
             const themeName = core.getInput('theme-name') || require(pkgPath).name;
@@ -1547,11 +1547,11 @@ const GhostAdminApi = __webpack_require__(455);
             await exec.exec(`zip -r ${themeZip} . -x *.git* *.zip yarn* npm* *routes.yaml *redirects.yaml *redirects.json ${exclude}`, [], {cwd: basePath});
         }
 
-        zipPath = path.join(basePath, themeZip);
+        zipPath = path.join(basePath, zipPath);
 
         // Deploy it to the configured site
         await api.themes.upload({file: zipPath});
-        console.log(`${themeZip} successfully uploaded.`);
+        console.log(`${zipPath} successfully uploaded.`);
     } catch (err) {
         console.error(err);
         process.exit(1);
